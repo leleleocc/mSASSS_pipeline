@@ -1,0 +1,32 @@
+{
+  "data": "/paddle/lv/mSASSS_pipeline/src/stage1/data/spine_keypoints_19pt/data.yaml",
+  "train_split": "train",
+  "val_split": "val",
+  "imgsz": [
+    1024,
+    768
+  ],
+  "epochs": 50,
+  "batch": 16,
+  "workers": 4,
+  "device": "0",
+  "seed": 42,
+  "backbone_lr": 0.0001,
+  "head_lr": 0.0003,
+  "weight_decay": 0.0001,
+  "warmup_epochs": 5,
+  "patience": 10,
+  "sigma": 2.0,
+  "coordinate_gain": 10.0,
+  "structure_gain": 2.0,
+  "class_gain": 0.1,
+  "degrees": 5.0,
+  "translate": 0.03,
+  "scale": 0.1,
+  "project": "/paddle/lv/mSASSS_pipeline/src/stage1/outputs/efficientnet",
+  "name": "efficientnet_b0_19pt_bs16_8gpu",
+  "resume": null,
+  "no_pretrained": false,
+  "no_amp": false,
+  "exist_ok": false
+}

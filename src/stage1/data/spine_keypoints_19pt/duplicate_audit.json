@@ -1,0 +1,20 @@
+[
+  {
+    "sha256": "57e1a1123bbb6c96f3fee58edfc6b54ce3313c35c9655e852f9af32eefd34636",
+    "retained": {
+      "source": "buu",
+      "case": "0140-M-024Y1",
+      "split": "train"
+    },
+    "dropped": [
+      {
+        "source": "buu",
+        "case": "0719-M-024Y1",
+        "split": "train"
+      }
+    ],
+    "original_splits": [
+      "train"
+    ]
+  }
+]

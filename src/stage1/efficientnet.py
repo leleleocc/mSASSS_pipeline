@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import math
+import os
 import random
 from pathlib import Path
 from typing import Any, Sequence
@@ -16,6 +17,11 @@ import torch.nn.functional as F
 import yaml
 from torch.utils.data import Dataset
 from torchvision.models import EfficientNet_B0_Weights, efficientnet_b0
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+TORCH_HOME = Path(os.environ.setdefault("TORCH_HOME", str(PROJECT_ROOT / ".cache" / "torch")))
+torch.hub.set_dir(str(TORCH_HOME / "hub"))
 
 
 KEYPOINT_NAMES = [

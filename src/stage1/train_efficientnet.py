@@ -48,8 +48,8 @@ def parse_args() -> argparse.Namespace:
         metavar="N",
         help="one square size, or height width (default: 1024 768)",
     )
-    parser.add_argument("--epochs", type=int, default=200)
-    parser.add_argument("--batch", type=int, default=4)
+    parser.add_argument("--epochs", type=int, default=50)
+    parser.add_argument("--batch", type=int, default=16)
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--device", default="0", help="CUDA index such as 0, or cpu")
     parser.add_argument("--seed", type=int, default=42)
@@ -57,7 +57,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--head-lr", type=float, default=3e-4)
     parser.add_argument("--weight-decay", type=float, default=1e-4)
     parser.add_argument("--warmup-epochs", type=int, default=5)
-    parser.add_argument("--patience", type=int, default=40)
+    parser.add_argument("--patience", type=int, default=10)
     parser.add_argument("--sigma", type=float, default=2.0)
     parser.add_argument("--coordinate-gain", type=float, default=10.0)
     parser.add_argument("--structure-gain", type=float, default=2.0)
@@ -220,16 +220,19 @@ def main() -> int:
     data_yaml = args.data.resolve()
     if not data_yaml.is_file():
         raise RuntimeError(f"dataset YAML does not exist: {data_yaml}")
-    output_dir = (args.project / args.name).resolve()
-    if output_dir.exists() and any(output_dir.iterdir()) and args.resume is None and not args.exist_ok:
-        raise FileExistsError(
-            f"output directory is not empty: {output_dir}; choose another --name or pass --exist-ok"
-        )
-    weights_dir = output_dir / "weights"
-    weights_dir.mkdir(parents=True, exist_ok=True)
-    history_path = output_dir / "results.csv"
     distributed, rank, local_rank, world_size = init_distributed()
     device = torch.device(f"cuda:{local_rank}") if distributed else resolve_device(args.device)
+    output_dir = (args.project / args.name).resolve()
+    weights_dir = output_dir / "weights"
+    if rank == 0:
+        if output_dir.exists() and any(output_dir.iterdir()) and args.resume is None and not args.exist_ok:
+            raise FileExistsError(
+                f"output directory is not empty: {output_dir}; choose another --name or pass --exist-ok"
+            )
+        weights_dir.mkdir(parents=True, exist_ok=True)
+    if distributed:
+        dist.barrier()
+    history_path = output_dir / "results.csv"
     amp_enabled = device.type == "cuda" and not args.no_amp
     seed_everything(args.seed + rank)
 
@@ -259,6 +262,8 @@ def main() -> int:
         train_loader = DataLoader(train_dataset, shuffle=True, generator=generator, **loader_options)
     val_loader = DataLoader(val_dataset, shuffle=False, **loader_options)
 
+    if distributed and rank != 0 and not args.no_pretrained:
+        dist.barrier()
     try:
         base_model = EfficientNetKeypointModel(pretrained=not args.no_pretrained).to(device)
     except Exception as exc:
@@ -268,6 +273,8 @@ def main() -> int:
             "failed to load/download the torchvision EfficientNet-B0 ImageNet weights; "
             "fix network access or use --no-pretrained for a scratch run"
         ) from exc
+    if distributed and rank == 0 and not args.no_pretrained:
+        dist.barrier()
     model: nn.Module = base_model
     if distributed:
         model = DDP(base_model, device_ids=[local_rank], output_device=local_rank, broadcast_buffers=False)

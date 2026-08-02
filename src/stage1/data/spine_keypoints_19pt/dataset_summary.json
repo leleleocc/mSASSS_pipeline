@@ -1,0 +1,126 @@
+{
+  "output": "/home/lsw/lv/mSASSS_pipeline/src/stage1/data/spine_keypoints_19pt",
+  "seed": 42,
+  "split_policy": {
+    "zhongri": "80/10/10 patient-wise; paired C/L stay together",
+    "csxa": "80/10/10 by unique four-digit case prefix",
+    "buu": "preserve source train/val/test split"
+  },
+  "keypoints_per_image": 19,
+  "keypoint_names": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "V1P1",
+    "V1P2",
+    "V2P1",
+    "V2P2",
+    "V3P1",
+    "V3P2",
+    "V4P1",
+    "V4P2",
+    "V5P1",
+    "V5P2",
+    "V6P1",
+    "V6P2"
+  ],
+  "classes": {
+    "0": "cervical_spine",
+    "1": "lumbar_spine"
+  },
+  "source_records_before_filter": {
+    "zhongri": 116,
+    "csxa": 4963,
+    "buu": 700
+  },
+  "included_images": 5738,
+  "excluded_images": 41,
+  "excluded_by_reason": {
+    "byte-identical duplicate image": 1,
+    "one or more required keypoints outside image": 40
+  },
+  "exact_duplicate_groups": 1,
+  "duplicate_images_removed": 1,
+  "included_counts": [
+    {
+      "source": "buu",
+      "split": "test",
+      "class": "lumbar_spine",
+      "images": 95
+    },
+    {
+      "source": "buu",
+      "split": "train",
+      "class": "lumbar_spine",
+      "images": 483
+    },
+    {
+      "source": "buu",
+      "split": "val",
+      "class": "lumbar_spine",
+      "images": 92
+    },
+    {
+      "source": "csxa",
+      "split": "test",
+      "class": "cervical_spine",
+      "images": 493
+    },
+    {
+      "source": "csxa",
+      "split": "train",
+      "class": "cervical_spine",
+      "images": 3964
+    },
+    {
+      "source": "csxa",
+      "split": "val",
+      "class": "cervical_spine",
+      "images": 495
+    },
+    {
+      "source": "zhongri",
+      "split": "test",
+      "class": "cervical_spine",
+      "images": 6
+    },
+    {
+      "source": "zhongri",
+      "split": "test",
+      "class": "lumbar_spine",
+      "images": 6
+    },
+    {
+      "source": "zhongri",
+      "split": "train",
+      "class": "cervical_spine",
+      "images": 46
+    },
+    {
+      "source": "zhongri",
+      "split": "train",
+      "class": "lumbar_spine",
+      "images": 46
+    },
+    {
+      "source": "zhongri",
+      "split": "val",
+      "class": "cervical_spine",
+      "images": 6
+    },
+    {
+      "source": "zhongri",
+      "split": "val",
+      "class": "lumbar_spine",
+      "images": 6
+    }
+  ],
+  "image_transfer": {
+    "hardlink": 5738
+  },
+  "cross_split_exact_duplicate_groups_before_deduplication": 0
+}

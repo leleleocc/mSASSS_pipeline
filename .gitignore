@@ -1,5 +1,6 @@
 data/
 .downloads/
+.cache/
 .conda_env/
 __pycache__/
 *.py[cod]
@@ -7,3 +8,26 @@ __pycache__/
 outputs/
 
 **.pt
+
+!src/stage1/data/
+!src/stage1/data/**
+!src/stage1/outputs/
+!src/stage1/outputs/**
+
+src/stage1/data/**/*.pt
+src/stage1/data/**/*.jpg
+src/stage1/data/**/*.jpeg
+src/stage1/data/**/*.png
+src/stage1/data/**/*.bmp
+src/stage1/data/**/*.tif
+src/stage1/data/**/*.tiff
+src/stage1/data/**/*.webp
+
+src/stage1/outputs/**/*.pt
+src/stage1/outputs/**/*.jpg
+src/stage1/outputs/**/*.jpeg
+src/stage1/outputs/**/*.png
+src/stage1/outputs/**/*.bmp
+src/stage1/outputs/**/*.tif
+src/stage1/outputs/**/*.tiff
+src/stage1/outputs/**/*.webp

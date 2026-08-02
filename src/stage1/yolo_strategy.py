@@ -214,7 +214,7 @@ def _build_fixed_dataset(owner: Any, img_path: str, mode: str, batch: int | None
 
 
 class NormalizedMREPoseValidator(PoseValidator):
-    """Add original-image N-MRE/PCK and use negative N-MRE as fitness."""
+    """Add original-image N-MRE/PCK and use normalized-MRE for fitness."""
 
     def __init__(self, *args, input_shape: Sequence[int] = DEFAULT_INPUT_SHAPE, **kwargs):
         self.input_shape = normalize_input_shape(input_shape)
@@ -257,21 +257,25 @@ class NormalizedMREPoseValidator(PoseValidator):
             self._point_count += float(normalized.numel())
         super().update_metrics(preds, batch)
 
-    def get_stats(self) -> dict[str, Any]:
-        stats = super().get_stats()
+    def gather_stats(self) -> None:
+        super().gather_stats()
+        if not (dist.is_available() and dist.is_initialized()):
+            return
         totals = torch.tensor(
             [self._nme_sum, self._pck1_count, self._point_count],
             dtype=torch.float64,
             device=self.device,
         )
-        if dist.is_available() and dist.is_initialized():
-            dist.all_reduce(totals, op=dist.ReduceOp.SUM)
-        nme_sum, pck_count, point_count = totals.tolist()
-        denominator = max(point_count, 1.0)
-        nme = nme_sum / denominator
+        dist.all_reduce(totals, op=dist.ReduceOp.SUM)
+        self._nme_sum, self._pck1_count, self._point_count = totals.tolist()
+
+    def get_stats(self) -> dict[str, Any]:
+        stats = super().get_stats()
+        denominator = max(self._point_count, 1.0)
+        nme = self._nme_sum / denominator
         stats["metrics/normalized_MRE(P)"] = nme * 100.0
-        stats["metrics/PCK@1%(P)"] = pck_count / denominator
-        stats["fitness"] = -nme
+        stats["metrics/PCK@1%(P)"] = self._pck1_count / denominator
+        stats["fitness"] = 100.0 - float(stats["metrics/normalized_MRE(P)"])
         return stats
 
 

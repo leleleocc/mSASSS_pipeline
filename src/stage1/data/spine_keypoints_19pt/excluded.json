@@ -1,0 +1,806 @@
+[
+  {
+    "source": "csxa",
+    "source_case": "0049040",
+    "class_id": 0,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 6,
+        "generic_name": "B7",
+        "point": [
+          323.646557186401,
+          1035.4704773666774
+        ]
+      },
+      {
+        "index": 18,
+        "generic_name": "V6P2",
+        "point": [
+          264.4712648172527,
+          1014.5088132268662
+        ]
+      }
+    ]
+  },
+  {
+    "source": "csxa",
+    "source_case": "1326035",
+    "class_id": 0,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 6,
+        "generic_name": "B7",
+        "point": [
+          262.2127975152788,
+          755.1058763049145
+        ]
+      },
+      {
+        "index": 18,
+        "generic_name": "V6P2",
+        "point": [
+          218.96206024790416,
+          754.3653444429374
+        ]
+      }
+    ]
+  },
+  {
+    "source": "csxa",
+    "source_case": "1392037",
+    "class_id": 0,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 6,
+        "generic_name": "B7",
+        "point": [
+          337.56666813483764,
+          746.3916460467086
+        ]
+      }
+    ]
+  },
+  {
+    "source": "csxa",
+    "source_case": "1422038",
+    "class_id": 0,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 6,
+        "generic_name": "B7",
+        "point": [
+          287.7476250028873,
+          752.711062222769
+        ]
+      }
+    ]
+  },
+  {
+    "source": "csxa",
+    "source_case": "1504040",
+    "class_id": 0,
+    "native_or_assigned_split": "val",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 6,
+        "generic_name": "B7",
+        "point": [
+          310.7019607186991,
+          773.172920874043
+        ]
+      },
+      {
+        "index": 18,
+        "generic_name": "V6P2",
+        "point": [
+          270.0219497670545,
+          758.4130845601921
+        ]
+      }
+    ]
+  },
+  {
+    "source": "csxa",
+    "source_case": "4401022",
+    "class_id": 0,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 6,
+        "generic_name": "B7",
+        "point": [
+          320.9827398332453,
+          783.9258397452861
+        ]
+      }
+    ]
+  },
+  {
+    "source": "csxa",
+    "source_case": "4422023",
+    "class_id": 0,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 6,
+        "generic_name": "B7",
+        "point": [
+          251.06366623057454,
+          781.0613023098587
+        ]
+      },
+      {
+        "index": 18,
+        "generic_name": "V6P2",
+        "point": [
+          210.9515021818587,
+          775.602856911874
+        ]
+      }
+    ]
+  },
+  {
+    "source": "csxa",
+    "source_case": "4488026",
+    "class_id": 0,
+    "native_or_assigned_split": "test",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 6,
+        "generic_name": "B7",
+        "point": [
+          369.28600156216555,
+          759.5412549557175
+        ]
+      }
+    ]
+  },
+  {
+    "source": "csxa",
+    "source_case": "4693030",
+    "class_id": 0,
+    "native_or_assigned_split": "test",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 6,
+        "generic_name": "B7",
+        "point": [
+          242.65176571394377,
+          742.4773196438306
+        ]
+      }
+    ]
+  },
+  {
+    "source": "csxa",
+    "source_case": "4725030",
+    "class_id": 0,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 6,
+        "generic_name": "B7",
+        "point": [
+          324.59463452653745,
+          746.0880645008291
+        ]
+      }
+    ]
+  },
+  {
+    "source": "csxa",
+    "source_case": "4726030",
+    "class_id": 0,
+    "native_or_assigned_split": "test",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 6,
+        "generic_name": "B7",
+        "point": [
+          320.2060048754332,
+          752.7994091713501
+        ]
+      },
+      {
+        "index": 18,
+        "generic_name": "V6P2",
+        "point": [
+          282.15433887524125,
+          739.581933208452
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0015-M-020Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          565.8669820608619,
+          -51.18669515167385
+        ]
+      },
+      {
+        "index": 7,
+        "generic_name": "V1P1",
+        "point": [
+          417.1347848985284,
+          -39.22153332434381
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0019-F-015Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          941.8791247429996,
+          -67.2431075025284
+        ]
+      },
+      {
+        "index": 7,
+        "generic_name": "V1P1",
+        "point": [
+          824.3267448139691,
+          -30.133950136615056
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0037-F-019Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          433.6078048513284,
+          -71.06113130272882
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0048-F-020Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1246.098156100198,
+          -61.60298496069662
+        ]
+      },
+      {
+        "index": 7,
+        "generic_name": "V1P1",
+        "point": [
+          1145.7284658572246,
+          -13.968559695014449
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0071-F-016Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1163.777825789414,
+          -74.60766709308994
+        ]
+      },
+      {
+        "index": 7,
+        "generic_name": "V1P1",
+        "point": [
+          1035.0758586117256,
+          -37.95049915129877
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0107-F-033Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          936.2472296754664,
+          -24.623114823427898
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0134-M-038Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          914.3497504106236,
+          -6.849939103114579
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0174-M-063Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1164.8274250260065,
+          -0.18131959647296014
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0233-F-064Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1310.2470719543983,
+          -17.678752894654224
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0268-M-052Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1571.3813391820283,
+          -61.625534172619155
+        ]
+      },
+      {
+        "index": 7,
+        "generic_name": "V1P1",
+        "point": [
+          1395.186068245719,
+          -36.05242224337967
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0443-M-020Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1502.2459213928819,
+          -41.03053703179353
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0699-M-072Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          859.0774860352126,
+          -8.929733007593725
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0756-F-039Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          891.1996568008037,
+          -30.066302066140025
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0757-M-072Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          909.9471825463517,
+          -28.347599870360952
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0828-F-042Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1053.552178376138,
+          -56.170810717975826
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0869-F-050Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          936.1561475853175,
+          -36.20762197685459
+        ]
+      },
+      {
+        "index": 7,
+        "generic_name": "V1P1",
+        "point": [
+          799.2014655868859,
+          -9.90864300595365
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0009-F-038Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "val",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          653.4230991013288,
+          -51.142723196576654
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0013-M-022Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "val",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          649.4131608853002,
+          -33.52451258934854
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0066-F-019Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "val",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          632.757328595356,
+          -43.46400030131606
+        ]
+      },
+      {
+        "index": 7,
+        "generic_name": "V1P1",
+        "point": [
+          500.73268308444653,
+          -14.063621388910256
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0081-M-022Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "val",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          772.1660844353075,
+          -30.629631034371386
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0214-F-072Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "val",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1290.5007563851036,
+          -41.61740400175825
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0413-M-036Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "val",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          997.6739715848221,
+          -47.35245893953976
+        ]
+      },
+      {
+        "index": 7,
+        "generic_name": "V1P1",
+        "point": [
+          816.673308812983,
+          -15.166061018996885
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0493-F-029Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "val",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1085.3216145256824,
+          -35.38446414336336
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0821-M-058Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "val",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          632.3732595680204,
+          -56.33976279137407
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0118-F-015Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "test",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1728.844819583321,
+          -59.855138096599184
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0208-F-058Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "test",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1220.380383251908,
+          -46.68183773790858
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0251-M-055Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "test",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1241.516085059061,
+          -27.65690298564715
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0282-F-034Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "test",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1109.1703111603588,
+          -78.7848333640085
+        ]
+      },
+      {
+        "index": 7,
+        "generic_name": "V1P1",
+        "point": [
+          958.1259194812297,
+          -45.491402120957716
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0655-M-019Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "test",
+    "reason": "one or more required keypoints outside image",
+    "outside": [
+      {
+        "index": 0,
+        "generic_name": "B1",
+        "point": [
+          1165.8945093105767,
+          -22.669727601935122
+        ]
+      }
+    ]
+  },
+  {
+    "source": "buu",
+    "source_case": "0719-M-024Y1",
+    "class_id": 1,
+    "native_or_assigned_split": "train",
+    "reason": "byte-identical duplicate image",
+    "retained": {
+      "source": "buu",
+      "source_case": "0140-M-024Y1",
+      "split": "train"
+    }
+  }
+]

@@ -1,0 +1,115 @@
+{
+  "images": 599,
+  "keypoints_per_image": 19,
+  "missing_prediction_penalty": "one original-image diagonal per point",
+  "point_metrics": {
+    "mean_error_px": 4.572627695661735,
+    "median_error_px": 1.7513608351262877,
+    "p95_error_px": 16.1171838762221,
+    "max_error_px": 306.37419620465477,
+    "mean_error_image_diag_pct": 0.26752419016168094,
+    "pck_0.5pct_image_diag": 0.9174940690624726,
+    "pck_1pct_image_diag": 0.9776821017485282,
+    "pck_2pct_image_diag": 0.9906862314383622
+  },
+  "center_metrics": {
+    "mean_error_px": 4.4711019860299865,
+    "median_error_px": 1.5259131102733805,
+    "p95_error_px": 16.580359393187006,
+    "max_error_px": 292.66641969324655,
+    "mean_error_image_diag_pct": 0.25872322423689603,
+    "pck_0.5pct_image_diag": 0.9084187932268066,
+    "pck_1pct_image_diag": 0.9761507274028142,
+    "pck_2pct_image_diag": 0.9906987836870975
+  },
+  "corner_metrics": {
+    "mean_error_px": 4.631851026280255,
+    "median_error_px": 1.8631578934172743,
+    "p95_error_px": 15.930171964459168,
+    "max_error_px": 306.37419620465477,
+    "mean_error_image_diag_pct": 0.27265808695113875,
+    "pck_0.5pct_image_diag": 0.922787979966611,
+    "pck_1pct_image_diag": 0.9785754034501948,
+    "pck_2pct_image_diag": 0.9906789092932665
+  },
+  "vu_pair_pck": {
+    "pck_0.5pct_image_diag": 0.8811908736783528,
+    "pck_1pct_image_diag": 0.9688369504730105,
+    "pck_2pct_image_diag": 0.9880356149137451
+  },
+  "detection_coverage": 1.0,
+  "class_accuracy": 0.998330550918197,
+  "groups": {
+    "class:cervical_spine": {
+      "mean_error_px": 2.0976018435663577,
+      "median_error_px": 1.4888710473426048,
+      "p95_error_px": 4.750821166073565,
+      "max_error_px": 86.19176515108595,
+      "mean_error_image_diag_pct": 0.21672958383842927,
+      "pck_0.5pct_image_diag": 0.9552473999369682,
+      "pck_1pct_image_diag": 0.991175543649543,
+      "pck_2pct_image_diag": 0.9959029309801449
+    },
+    "class:lumbar_spine": {
+      "mean_error_px": 17.22556598035341,
+      "median_error_px": 9.736625645162865,
+      "p95_error_px": 47.99671131162033,
+      "max_error_px": 306.37419620465477,
+      "mean_error_image_diag_pct": 0.5271986571815697,
+      "pck_0.5pct_image_diag": 0.7244897959183674,
+      "pck_1pct_image_diag": 0.9087003222341569,
+      "pck_2pct_image_diag": 0.9640171858216972
+    },
+    "source:buu": {
+      "mean_error_px": 17.549643170105565,
+      "median_error_px": 9.748755871991424,
+      "p95_error_px": 48.439483258388485,
+      "max_error_px": 306.37419620465477,
+      "mean_error_image_diag_pct": 0.5226922306671451,
+      "pck_0.5pct_image_diag": 0.7362700228832952,
+      "pck_1pct_image_diag": 0.9113272311212814,
+      "pck_2pct_image_diag": 0.9633867276887872
+    },
+    "source:csxa": {
+      "mean_error_px": 1.9722762358875017,
+      "median_error_px": 1.4757449805507847,
+      "p95_error_px": 4.375815398443168,
+      "max_error_px": 85.74482517678327,
+      "mean_error_image_diag_pct": 0.21368451133706245,
+      "pck_0.5pct_image_diag": 0.9578947368421052,
+      "pck_1pct_image_diag": 0.9920255183413078,
+      "pck_2pct_image_diag": 0.9962785752259437
+    },
+    "source:zhongri": {
+      "mean_error_px": 12.346673440612827,
+      "median_error_px": 9.467179606651879,
+      "p95_error_px": 32.469405803775544,
+      "max_error_px": 86.19176515108595,
+      "mean_error_image_diag_pct": 0.5321226311353011,
+      "pck_0.5pct_image_diag": 0.6403508771929824,
+      "pck_1pct_image_diag": 0.8947368421052632,
+      "pck_2pct_image_diag": 0.9692982456140351
+    }
+  },
+  "model": {
+    "type": "EfficientNet-B0-FPN",
+    "weights": "/paddle/lv/mSASSS_pipeline/src/stage1/outputs/efficientnet/efficientnet_b0_19pt_bs16_8gpu/weights/best.pt",
+    "checkpoint_epoch": 44,
+    "checkpoint_metrics": {
+      "mean_error_px": 4.572627695375695,
+      "median_error_px": 1.7513608932495117,
+      "p95_error_px": 16.117183685302734,
+      "mean_error_image_diag_pct": 0.2675241907739338,
+      "pck_0.5pct_image_diag": 0.9174940690624726,
+      "pck_1pct_image_diag": 0.9776821017485282,
+      "pck_2pct_image_diag": 0.9906862314383622,
+      "class_accuracy": 0.998330550918197
+    },
+    "split": "val",
+    "imgsz_hw": [
+      1024,
+      768
+    ],
+    "amp": true
+  }
+}
