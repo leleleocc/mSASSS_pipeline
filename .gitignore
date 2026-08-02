@@ -1,0 +1,9 @@
+data/
+.downloads/
+.conda_env/
+__pycache__/
+*.py[cod]
+.matplotlib/
+outputs/
+
+**.pt
