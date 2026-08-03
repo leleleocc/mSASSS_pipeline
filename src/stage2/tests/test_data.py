@@ -22,9 +22,11 @@ from src.stage2.data import (
     load_zhongri_samples,
     ordinal_targets,
     sample_crop_jitter,
+    transform_points_to_crop,
 )
 from src.stage2.model import (
     VUOrdinalEfficientNet,
+    build_endpoint_roi_boxes,
     load_stage1_backbone,
     ordinal_loss,
     trainable_parameter_counts,
@@ -60,6 +62,8 @@ class Stage2DataTest(unittest.TestCase):
     def test_dataset_returns_two_scores_and_ordinal_targets(self) -> None:
         item = ZhongriVUDataset(self.samples[:2], augment=False)[0]
         self.assertEqual(tuple(item["image"].shape), (3, 256, 256))
+        self.assertEqual(tuple(item["point_xy"].shape), (2, 2))
+        self.assertTrue(bool(torch.isfinite(item["point_xy"]).all()))
         self.assertEqual(tuple(item["scores"].shape), (2,))
         self.assertEqual(tuple(item["ordinal_targets"].shape), (2, 3))
         np.testing.assert_array_equal(
@@ -83,6 +87,12 @@ class Stage2DataTest(unittest.TestCase):
         np.testing.assert_array_equal(augmented[..., 0], augmented[..., 1])
         np.testing.assert_array_equal(augmented[..., 1], augmented[..., 2])
         self.assertEqual(canonical.shape, (4, 2))
+
+    def test_points_use_the_same_perspective_transform_as_the_crop(self) -> None:
+        source = np.asarray([[10, 20], [110, 20], [110, 120], [10, 120]], dtype=np.float32)
+        transformed = transform_points_to_crop(source, source, output_size=64)
+        expected = np.asarray([[0, 0], [63, 0], [63, 63], [0, 63]], dtype=np.float32)
+        np.testing.assert_allclose(transformed, expected, atol=1e-4)
 
     def test_patient_folds_have_no_cross_fold_leakage(self) -> None:
         assignments = assign_patient_folds(self.samples, 5, 42)
@@ -119,6 +129,43 @@ class Stage2DataTest(unittest.TestCase):
         self.assertTrue(torch.isfinite(logits.grad).all())
         self.assertEqual(set(parts), {"up_loss", "down_loss"})
         self.assertGreater(trainable_parameter_counts(model)["backbone"], 1_000_000)
+
+    def test_point_aware_model_extracts_two_endpoint_rois(self) -> None:
+        model = VUOrdinalEfficientNet(
+            pretrained=False,
+            hidden_dim=64,
+            use_roi=True,
+            local_roi_size=16,
+            roi_output_size=3,
+            local_dim=32,
+        ).eval()
+        point_xy = torch.tensor(
+            [
+                [[16.0, 16.0], [48.0, 48.0]],
+                [[20.0, 18.0], [44.0, 46.0]],
+            ]
+        )
+        with torch.no_grad():
+            output = model(torch.zeros(2, 3, 64, 64), point_xy)
+        self.assertEqual(tuple(output["ordinal_logits"].shape), (2, 2, 3))
+        self.assertEqual(tuple(output["embedding"].shape), (2, 2, 64))
+        self.assertEqual(tuple(output["local_embedding"].shape), (2, 2, 32))
+        self.assertEqual(tuple(output["roi_boxes"].shape), (4, 5))
+        torch.testing.assert_close(
+            output["roi_boxes"][:, 0],
+            torch.tensor([0.0, 0.0, 1.0, 1.0]),
+        )
+        probabilities = output["probabilities"]
+        self.assertTrue(bool((probabilities[..., 0] >= probabilities[..., 1]).all()))
+        self.assertTrue(bool((probabilities[..., 1] >= probabilities[..., 2]).all()))
+
+    def test_endpoint_roi_boxes_preserve_up_down_order(self) -> None:
+        points = torch.tensor([[[10.0, 20.0], [30.0, 40.0]]])
+        boxes = build_endpoint_roi_boxes(points, roi_size=8)
+        expected = torch.tensor(
+            [[0.0, 6.0, 16.0, 14.0, 24.0], [0.0, 26.0, 36.0, 34.0, 44.0]]
+        )
+        torch.testing.assert_close(boxes, expected)
 
     def test_stage1_efficientnet_backbone_can_be_loaded(self) -> None:
         from src.stage1.efficientnet import EfficientNetKeypointModel

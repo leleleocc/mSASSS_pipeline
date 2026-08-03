@@ -48,7 +48,7 @@ def parse_args() -> argparse.Namespace:
         metavar="N",
         help="one square size, or height width (default: 1024 768)",
     )
-    parser.add_argument("--epochs", type=int, default=50)
+    parser.add_argument("--epochs", type=int, default=100)
     parser.add_argument("--batch", type=int, default=16)
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--device", default="0", help="CUDA index such as 0, or cpu")
@@ -57,7 +57,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--head-lr", type=float, default=3e-4)
     parser.add_argument("--weight-decay", type=float, default=1e-4)
     parser.add_argument("--warmup-epochs", type=int, default=5)
-    parser.add_argument("--patience", type=int, default=10)
+    parser.add_argument("--patience", type=int, default=20)
     parser.add_argument("--sigma", type=float, default=2.0)
     parser.add_argument("--coordinate-gain", type=float, default=10.0)
     parser.add_argument("--structure-gain", type=float, default=2.0)

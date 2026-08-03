@@ -21,6 +21,11 @@ their aspect ratio and are padded; they are not stretched.
 `prepare_data.py` is the single canonical builder for the Zhongri + CSXA +
 BUU-LSPINE 19-point dataset. Use `prepare_data.sh --check-only` for a read-only audit.
 
+Detailed implementation documents:
+
+- [YOLO26s-Pose augmentation, architecture, and training](docs/yolo.md)
+- [EfficientNet-B0-FPN augmentation, architecture, and training](docs/efficientnet.md)
+
 ## Commands
 
 From any directory:

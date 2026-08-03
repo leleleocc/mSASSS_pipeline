@@ -1,0 +1,11 @@
+1、BUU数据重新下载+预处理，有2000个LA
+
+## 数据：
+- 无标注
+https://wwwn.cdc.gov/nchs/data/nhanes2/NH2_Xray.htm
+https://github.com/vinbigdata-medical/vindr-spinexr
+- 有标注
+zhongri
+https://www.nature.com/articles/s41597-024-03383-0（CSXA）
+https://data.mendeley.com/datasets/5jdfdgp762/1（Spondylolisthesis Vertebral Landmark，标注box数量不统一）
+https://www.mdpi.com/2076-3417/13/15/8646（BUU）

@@ -291,9 +291,7 @@ def extract_vu_crop(
     if output_size < 32:
         raise ValueError("output_size must be at least 32")
     source = crop_quad(sample, jitter)
-    maximum = float(output_size - 1)
-    target = np.asarray([[0, 0], [maximum, 0], [maximum, maximum], [0, maximum]], dtype=np.float32)
-    matrix = cv2.getPerspectiveTransform(source, target)
+    matrix = crop_perspective_transform(source, output_size)
     crop = cv2.warpPerspective(
         image,
         matrix,
@@ -303,6 +301,37 @@ def extract_vu_crop(
         borderValue=(0, 0, 0),
     )
     return crop, source
+
+
+def crop_perspective_transform(source_quad: np.ndarray, output_size: int) -> np.ndarray:
+    """Return the source-image to canonical-crop homography."""
+    source = np.asarray(source_quad, dtype=np.float32)
+    if source.shape != (4, 2):
+        raise ValueError(f"source_quad must have shape [4,2], got {source.shape}")
+    if output_size < 32:
+        raise ValueError("output_size must be at least 32")
+    maximum = float(output_size - 1)
+    target = np.asarray(
+        [[0, 0], [maximum, 0], [maximum, maximum], [0, maximum]],
+        dtype=np.float32,
+    )
+    return cv2.getPerspectiveTransform(source, target)
+
+
+def transform_points_to_crop(
+    points: Sequence[tuple[float, float]] | np.ndarray,
+    source_quad: np.ndarray,
+    output_size: int = DEFAULT_CROP_SIZE,
+) -> np.ndarray:
+    """Map original-image points into the same canonical crop as the image."""
+    array = np.asarray(points, dtype=np.float32)
+    if array.ndim != 2 or array.shape[1] != 2:
+        raise ValueError(f"points must have shape [N,2], got {array.shape}")
+    matrix = crop_perspective_transform(source_quad, output_size)
+    transformed = cv2.perspectiveTransform(array[:, None, :], matrix)[:, 0, :]
+    if not np.isfinite(transformed).all():
+        raise RuntimeError("non-finite point produced by VU crop transform")
+    return transformed.astype(np.float32, copy=False)
 
 
 def augment_intensity(
@@ -472,6 +501,11 @@ class ZhongriVUDataset(Dataset):
         rng = self._rng()
         jitter = sample_crop_jitter(rng, self.augmentation) if self.augment else CropJitter()
         crop, source_quad = extract_vu_crop(image, sample, self.crop_size, jitter)
+        point_xy = transform_points_to_crop(
+            [sample.up_corner, sample.down_corner],
+            source_quad,
+            self.crop_size,
+        )
         if self.augment:
             crop = augment_intensity(crop, rng, self.augmentation)
         rgb = cv2.cvtColor(crop, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
@@ -479,6 +513,7 @@ class ZhongriVUDataset(Dataset):
         image_tensor = torch.from_numpy(np.ascontiguousarray(rgb.transpose(2, 0, 1)))
         return {
             "image": image_tensor,
+            "point_xy": torch.from_numpy(point_xy),
             "scores": torch.tensor([sample.up_score, sample.down_score], dtype=torch.long),
             "ordinal_targets": torch.from_numpy(ordinal_targets(sample.up_score, sample.down_score)),
             "view_id": torch.tensor(0 if sample.view == "C" else 1, dtype=torch.long),

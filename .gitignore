@@ -1,4 +1,5 @@
 data/
+tmp/
 .downloads/
 .cache/
 .conda_env/

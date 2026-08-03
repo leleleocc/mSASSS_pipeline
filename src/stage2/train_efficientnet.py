@@ -54,8 +54,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--folds", type=int, default=5)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--crop-size", type=int, default=256)
-    parser.add_argument("--epochs", type=int, default=150)
-    parser.add_argument("--batch", type=int, default=4)
+    parser.add_argument("--epochs", type=int, default=100)
+    parser.add_argument("--batch", type=int, default=16)
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--device", default="0", help="one CUDA index or cpu")
     parser.add_argument("--backbone-lr", type=float, default=3e-5)
@@ -63,10 +63,20 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--weight-decay", type=float, default=1e-4)
     parser.add_argument("--warmup-epochs", type=int, default=5)
     parser.add_argument("--freeze-backbone-epochs", type=int, default=5)
-    parser.add_argument("--patience", type=int, default=30)
+    parser.add_argument("--patience", type=int, default=20)
     parser.add_argument("--sampler-power", type=float, default=0.5)
     parser.add_argument("--hidden-dim", type=int, default=256)
     parser.add_argument("--dropout", type=float, default=0.30)
+    parser.add_argument(
+        "--use-roi",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="use Stage-1 up/down points for shared stride-8 ROIAlign features",
+    )
+    parser.add_argument("--local-roi-size", type=float, default=64.0, help="ROI side in crop pixels")
+    parser.add_argument("--roi-output-size", type=int, default=5)
+    parser.add_argument("--local-dim", type=int, default=128)
+    parser.add_argument("--local-dropout", type=float, default=0.20)
     parser.add_argument(
         "--stage1-weights",
         type=Path,
@@ -205,9 +215,10 @@ def evaluate(
     targets: list[np.ndarray] = []
     for batch in loader:
         images = batch["image"].to(device, non_blocking=True)
+        point_xy = batch["point_xy"].to(device, non_blocking=True)
         ordinal = batch["ordinal_targets"].to(device, non_blocking=True)
         with torch.amp.autocast("cuda", enabled=amp_enabled):
-            outputs = model(images)
+            outputs = model(images, point_xy)
             loss, _ = ordinal_loss(outputs["ordinal_logits"], ordinal)
         batch_size = images.shape[0]
         loss_sum += float(loss) * batch_size
@@ -278,6 +289,10 @@ def main() -> int:
         raise ValueError("--fold must be in [0, --folds)")
     if args.epochs < 1 or args.batch < 1 or args.workers < 0 or args.crop_size < 32:
         raise ValueError("invalid epochs, batch, workers, or crop size")
+    if args.local_roi_size <= 0 or args.roi_output_size < 1 or args.local_dim < 16:
+        raise ValueError("invalid local ROI size, ROI output size, or local dimension")
+    if not 0 <= args.local_dropout < 1:
+        raise ValueError("local-dropout must be in [0, 1)")
     if args.patience < 0 or args.freeze_backbone_epochs < 0:
         raise ValueError("patience and freeze-backbone-epochs cannot be negative")
     if not 0 <= args.sampler_power <= 1:
@@ -388,6 +403,11 @@ def main() -> int:
             pretrained=pretrained,
             hidden_dim=args.hidden_dim,
             dropout=args.dropout,
+            use_roi=args.use_roi,
+            local_roi_size=args.local_roi_size,
+            roi_output_size=args.roi_output_size,
+            local_dim=args.local_dim,
+            local_dropout=args.local_dropout,
         )
     except Exception as exc:
         if not pretrained:
@@ -428,6 +448,12 @@ def main() -> int:
     if args.resume is not None:
         resume_path = args.resume.expanduser().resolve()
         checkpoint = torch.load(resume_path, map_location=device, weights_only=False)
+        checkpoint_args = checkpoint.get("args", {})
+        checkpoint_use_roi = bool(checkpoint_args.get("use_roi", False))
+        if checkpoint_use_roi != args.use_roi:
+            raise ValueError(
+                "resume checkpoint ROI mode does not match --use-roi/--no-use-roi"
+            )
         base_model.load_state_dict(checkpoint["model_state"])
         optimizer.load_state_dict(checkpoint["optimizer_state"])
         scheduler.load_state_dict(checkpoint["scheduler_state"])
@@ -473,7 +499,8 @@ def main() -> int:
             f"Stage-2 EfficientNet-B0 fold {args.fold}/{args.folds - 1}: "
             f"{len(train_patients)} patients/{len(train_samples)} VUs train, "
             f"{len(val_patients)} patients/{len(val_samples)} VUs val, "
-            f"input={args.crop_size}x{args.crop_size}, device={device}, AMP={amp_enabled}"
+            f"input={args.crop_size}x{args.crop_size}, ROI={args.use_roi}, "
+            f"device={device}, AMP={amp_enabled}"
         )
         print(f"Parameters: total={counts['total']:,}, backbone={counts['backbone']:,}, head={counts['head']:,}")
         print(f"Initialization: {initialization}")
@@ -488,16 +515,17 @@ def main() -> int:
         model.train()
         freeze_batch_norm_stats(base_model.backbone)
         if not backbone_trainable:
-            model.backbone.eval()
+            base_model.backbone.eval()
 
         train_sums = {"loss": 0.0, "up_loss": 0.0, "down_loss": 0.0}
         seen = 0
         for batch in train_loader:
             images = batch["image"].to(device, non_blocking=True)
+            point_xy = batch["point_xy"].to(device, non_blocking=True)
             ordinal = batch["ordinal_targets"].to(device, non_blocking=True)
             optimizer.zero_grad(set_to_none=True)
             with torch.amp.autocast("cuda", enabled=amp_enabled):
-                outputs = model(images)
+                outputs = model(images, point_xy)
                 loss, parts = ordinal_loss(outputs["ordinal_logits"], ordinal)
             if not torch.isfinite(loss):
                 raise RuntimeError(f"non-finite loss at epoch {epoch + 1}")
