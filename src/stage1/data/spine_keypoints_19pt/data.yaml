@@ -1,3 +1,4 @@
+path: "/paddle/lv/mSASSS_pipeline/src/stage1/data/spine_keypoints_19pt"
 train: images/train
 val: images/val
 test: images/test

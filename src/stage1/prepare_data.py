@@ -405,7 +405,7 @@ def collect_buu(root: Path) -> tuple[list[dict[str, Any]], list[str]]:
                     width=int(annotation["imageWidth"]),
                     height=int(annotation["imageHeight"]),
                     points=[*centers, *corners],
-                    native_split=split,
+                    native_split=None,
                     metadata={"T12_and_S1_points_estimated": True},
                 )
             )
@@ -445,11 +445,11 @@ def assign_splits(
         "csxa": split_groups(
             source_groups["csxa"], val_fraction, test_fraction, seed + 202
         ),
+        "buu": split_groups(
+            source_groups["buu"], val_fraction, test_fraction, seed + 303
+        ),
     }
     for item in records:
-        if item["native_split"] is not None:
-            item["split"] = item["native_split"]
-            continue
         raw_group = str(item["group_id"]).split(":", 1)[1]
         item["split"] = mappings[item["source"]][raw_group]
 

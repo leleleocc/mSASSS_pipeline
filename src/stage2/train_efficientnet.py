@@ -54,19 +54,19 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--folds", type=int, default=5)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--crop-size", type=int, default=256)
-    parser.add_argument("--epochs", type=int, default=100)
+    parser.add_argument("--epochs", type=int, default=200)
     parser.add_argument("--batch", type=int, default=16)
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--device", default="0", help="one CUDA index or cpu")
-    parser.add_argument("--backbone-lr", type=float, default=3e-5)
-    parser.add_argument("--head-lr", type=float, default=3e-4)
+    parser.add_argument("--backbone-lr", type=float, default=1e-5)
+    parser.add_argument("--head-lr", type=float, default=1e-4)
     parser.add_argument("--weight-decay", type=float, default=1e-4)
-    parser.add_argument("--warmup-epochs", type=int, default=5)
-    parser.add_argument("--freeze-backbone-epochs", type=int, default=5)
-    parser.add_argument("--patience", type=int, default=20)
+    parser.add_argument("--warmup-epochs", type=int, default=10)
+    parser.add_argument("--freeze-backbone-epochs", type=int, default=15)
+    parser.add_argument("--patience", type=int, default=30)
     parser.add_argument("--sampler-power", type=float, default=0.5)
     parser.add_argument("--hidden-dim", type=int, default=256)
-    parser.add_argument("--dropout", type=float, default=0.30)
+    parser.add_argument("--dropout", type=float, default=0.40)
     parser.add_argument(
         "--use-roi",
         action=argparse.BooleanOptionalAction,
@@ -90,16 +90,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--resume", type=Path, default=None)
     parser.add_argument("--exist-ok", action="store_true")
 
-    parser.add_argument("--rotation", type=float, default=3.0)
-    parser.add_argument("--translation", type=float, default=0.04)
-    parser.add_argument("--field-scale", type=float, default=0.10)
-    parser.add_argument("--gamma", type=float, default=0.10)
-    parser.add_argument("--contrast", type=float, default=0.10)
-    parser.add_argument("--brightness", type=float, default=0.03)
-    parser.add_argument("--noise-probability", type=float, default=0.25)
-    parser.add_argument("--noise-sigma", type=float, default=0.008)
-    parser.add_argument("--blur-probability", type=float, default=0.15)
-    parser.add_argument("--blur-sigma-max", type=float, default=0.8)
+    parser.add_argument("--rotation", type=float, default=5.0)
+    parser.add_argument("--translation", type=float, default=0.06)
+    parser.add_argument("--field-scale", type=float, default=0.15)
+    parser.add_argument("--gamma", type=float, default=0.15)
+    parser.add_argument("--contrast", type=float, default=0.15)
+    parser.add_argument("--brightness", type=float, default=0.05)
+    parser.add_argument("--noise-probability", type=float, default=0.35)
+    parser.add_argument("--noise-sigma", type=float, default=0.012)
+    parser.add_argument("--blur-probability", type=float, default=0.25)
+    parser.add_argument("--blur-sigma-max", type=float, default=1.2)
     return parser.parse_args()
 
 
@@ -421,7 +421,13 @@ def main() -> int:
     base_model.to(device)
     model: nn.Module = base_model
     if distributed:
-        model = DDP(base_model, device_ids=[local_rank], output_device=local_rank, broadcast_buffers=False)
+        model = DDP(
+            base_model,
+            device_ids=[local_rank],
+            output_device=local_rank,
+            broadcast_buffers=False,
+            find_unused_parameters=True,
+        )
 
     optimizer = torch.optim.AdamW(
         [

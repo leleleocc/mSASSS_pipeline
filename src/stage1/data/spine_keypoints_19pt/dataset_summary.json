@@ -1,5 +1,5 @@
 {
-  "output": "/home/lsw/lv/mSASSS_pipeline/src/stage1/data/spine_keypoints_19pt",
+  "output": "/paddle/lv/mSASSS_pipeline/src/stage1/data/spine_keypoints_19pt",
   "seed": 42,
   "split_policy": {
     "zhongri": "80/10/10 patient-wise; paired C/L stay together",
@@ -35,13 +35,13 @@
   "source_records_before_filter": {
     "zhongri": 116,
     "csxa": 4963,
-    "buu": 700
+    "buu": 2000
   },
-  "included_images": 5738,
-  "excluded_images": 41,
+  "included_images": 7019,
+  "excluded_images": 60,
   "excluded_by_reason": {
     "byte-identical duplicate image": 1,
-    "one or more required keypoints outside image": 40
+    "one or more required keypoints outside image": 59
   },
   "exact_duplicate_groups": 1,
   "duplicate_images_removed": 1,
@@ -50,19 +50,19 @@
       "source": "buu",
       "split": "test",
       "class": "lumbar_spine",
-      "images": 95
+      "images": 196
     },
     {
       "source": "buu",
       "split": "train",
       "class": "lumbar_spine",
-      "images": 483
+      "images": 1561
     },
     {
       "source": "buu",
       "split": "val",
       "class": "lumbar_spine",
-      "images": 92
+      "images": 194
     },
     {
       "source": "csxa",
@@ -120,7 +120,7 @@
     }
   ],
   "image_transfer": {
-    "hardlink": 5738
+    "hardlink": 7019
   },
   "cross_split_exact_duplicate_groups_before_deduplication": 0
 }

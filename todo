@@ -1,5 +1,5 @@
-1、BUU数据重新下载+预处理，有2000个LA
-
+删除现有的/paddle/lv/mSASSS_pipeline/src/stage1/data/spine_keypoints_19pt，将3个数据集的新数据split到该目录，可能有可用的脚本，check下
+  ，split 8：1：1 
 ## 数据：
 - 无标注
 https://wwwn.cdc.gov/nchs/data/nhanes2/NH2_Xray.htm
@@ -9,3 +9,17 @@ zhongri
 https://www.nature.com/articles/s41597-024-03383-0（CSXA）
 https://data.mendeley.com/datasets/5jdfdgp762/1（Spondylolisthesis Vertebral Landmark，标注box数量不统一）
 https://www.mdpi.com/2076-3417/13/15/8646（BUU）
+
+两个数据集都有外推界的，見各自的vis_check/
+  CSXA — 修复了 6 个 case 的 left/right 互换：
+  - 0049040: c5 bottom, c6 bottom
+  - 0056041: c5 bottom
+  - 0317133: c5 top, c5 bottom
+  - 0360131: c6 top
+  - 0509137: c5 top, c6 top, c6 bottom
+  - 3921152: c6 top, c6 bottom
+
+  BUU — 源 CSV 中有 3 个 case 存在 left > right 的行：
+  - 0169-F-044Y1: L1 top
+  - 1110-M-067Y1: L1 bottom
+  - 1997-M-012Y1: L1 bottom, L2 bottom
