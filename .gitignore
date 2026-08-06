@@ -9,7 +9,6 @@ __pycache__/
 outputs/
 core.*
 scripts/stage2_demo_output/
-scripts/stage2_val_predictions.csv
 
 **.pt
 
