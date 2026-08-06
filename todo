@@ -23,3 +23,51 @@ https://www.mdpi.com/2076-3417/13/15/8646（BUU）
   - 0169-F-044Y1: L1 top
   - 1110-M-067Y1: L1 bottom
   - 1997-M-012Y1: L1 bottom, L2 bottom
+
+## Stage 2：补充 CSXA 正常样本
+
+### 当前 OOF 基线（后续实验统一对照）
+- Zhongri：58 位患者、116 张片、696 个 VU、1392 个 endpoint，患者级 5 折。
+- endpoint mean MAE：0.564。
+- mean QWK：0.488。
+- exact accuracy：51.1%。
+- within ±1：92.7%。
+- 0 分 recall/precision：均为 15.7%，是当前主要短板。
+- 患者总 mSASSS MAE：9.47；低分患者存在明显高估。
+
+### 数据与标注
+- [ ] 首轮新增 15 位 CSXA 正常受试者；假设每人 1 张颈椎片、6 个 VU，共新增 90 个 VU、180 个 0 分 endpoint。
+- [ ] 按相同 mSASSS 标准逐 endpoint 确认确实为 0；“正常人”或“缺少评分”不能直接等同于 0。
+- [ ] 检查所有目标端点是否清晰、可评分；退变性骨赘等作为 hard negative 单独审计。
+- [ ] 统一 CSXA 与 Zhongri 的 crop、黑边、方向、分辨率及强度预处理，降低数据源 shortcut。
+- [ ] 尽量补充 Zhongri 的 0 分样本或 CSXA 的非 0 样本，避免模型学习“CSXA = 0”。
+
+### Fold 与采样
+- [ ] 冻结当前 58 位 Zhongri 患者的 fold assignment 并保存映射；加入 CSXA 后禁止重新洗牌 Zhongri。
+- [ ] 15 位 CSXA 正常受试者按患者分入 5 折，每折 3 人；同一患者的 6 个 VU 不得跨 fold。
+- [ ] 训练仍以单个 VU 为 unit，输入一个 VU、输出 up/down 两个分数；仅数据划分保持患者级。
+- [ ] 首轮只改变“新增正常样本”，保持网络、增强、loss、sampler power 和训练参数不变。
+- [ ] 检查实际训练是否为多 GPU：当前多卡路径使用普通 DistributedSampler，类别均衡 sampler 可能未生效。
+- [ ] 不同时叠加大量正常样本、强 class weight 和更强 sampler；根据首轮结果再做消融。
+
+### 对照实验
+- [ ] A：复现当前原始基线。
+- [ ] B：加入 15 位 CSXA 正常受试者，其他条件完全不变。
+- [ ] C：在 B 的基础上，对 P(score >= 1/2/3) 做独立/OOF 阈值校准；重点检查 P(score >= 1)。
+- [ ] 若 B 有稳定收益，再扩充到 20–25 位；首轮不直接超过 30 位全 0 受试者。
+
+### 验证与报告
+- [ ] 主结果单独报告原 Zhongri OOF，不能用新增的简单 0 分样本稀释指标。
+- [ ] CSXA 正常 OOF 单独报告预测 > 0 的假阳性率、平均预测分和各端点/水平结果。
+- [ ] 同时保留 combined 结果，但不作为主要结论。
+- [ ] Zhongri 指标：up/down/mean MAE、QWK、exact、within ±1、四等级 recall/precision、混淆矩阵。
+- [ ] 重点比较 0 recall/precision、0 -> 1 是否减少，以及真实 1 -> 0 是否明显增加。
+- [ ] 按 C/L、椎间水平和 fold 分层；重点检查 C2-C3、C7-T1。
+- [ ] 报告单片 0–36 总分和患者 0–72 总分的 MAE、相关性、bias，并按疾病严重度分层。
+- [ ] 保存灾难错误（绝对误差 >= 2）和最差患者列表，进行可视化审计。
+- [ ] 至少重复多个随机种子或给出患者级 bootstrap 置信区间。
+
+### 完整管线验证
+- [ ] 正常样本实验确认有效后，用 leak-safe Stage 1 OOF 预测点生成 crop/ROI，重新验证 Stage 1 -> Stage 2 完整级联。
+- [ ] GT 点结果仅作为 Stage 2 scorer 的定位无误差上界，不能作为最终管线指标。
+- [ ] 若 Stage 1 曾训练过 CSXA，CSXA 的完整管线评估也必须使用未见过对应患者/影像的 Stage 1 checkpoint。
